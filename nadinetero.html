@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Filipino Dishes Order</title>
+  <style>
+    :root{ --bg:#fbfbfe; --card:#fff; --muted:#6b7280; --accent:#ef4444; --accent-2:#f97316; }
+    *{box-sizing:border-box}
+    body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin:0; background:var(--bg); color:#0f172a; -webkit-font-smoothing:antialiased}
+    header{background:linear-gradient(90deg, rgba(239,68,68,0.12), rgba(249,115,22,0.06)); padding:28px 20px; display:flex; align-items:center; gap:16px}
+    .logo{width:64px; height:64px; border-radius:8px; background:linear-gradient(135deg,var(--accent),var(--accent-2)); display:flex; align-items:center; justify-content:center; color:white; font-weight:700}
+    .container{max-width:600px; margin:40px auto; padding:0 16px}
+    .card{background:var(--card); border-radius:14px; padding:18px; box-shadow:0 6px 18px rgba(15,23,42,0.06)}
+    h1,h2,h3{margin:0 0 12px 0}
+    .input{width:100%;padding:10px;border-radius:8px;border:1px solid #ddd;margin:6px 0;font-size:1rem}
+    .btn{display:inline-block;padding:10px 12px;border-radius:10px;text-decoration:none;font-weight:600; cursor:pointer}
+    .btn-primary{background:var(--accent); color:white; border:none}
+    .receipt-line{margin:4px 0}
+    footer{max-width:600px;margin:24px auto;padding:0 16px;color:var(--muted); font-size:0.9rem; text-align:center}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">FD</div>
+    <div>
+      <div style="font-weight:700">Filipino Dishes Order</div>
+      <div style="color:var(--muted); font-size:0.95rem">Place your order easily</div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="card">
+      <h2>Order Form</h2>
+      <p class="small">Choose your dish, quantity, and payment. Receipt will be generated automatically.</p>
+
+      <form id="orderForm">
+        <label>Customer Name:<br>
+          <input type="text" id="custName" required class="input">
+        </label><br>
+
+        <label>Select Menu Item:<br>
+          <select id="menu" class="input" required>
+            <option value="Sinigang na Bangus" data-price="150">Sinigang na Bangus — ₱150</option>
+            <option value="Chicken Adobo" data-price="120">Chicken Adobo — ₱120</option>
+            <option value="Pork Sisig" data-price="140">Pork Sisig — ₱140</option>
+            <option value="Beef Caldereta" data-price="170">Beef Caldereta — ₱170</option>
+            <option value="Lechon Kawali" data-price="160">Lechon Kawali — ₱160</option>
+          </select>
+        </label><br>
+
+        <label>Quantity:<br>
+          <input type="number" id="qty" min="1" value="1" required class="input">
+        </label><br>
+
+        <label>Payment Amount:<br>
+          <input type="number" id="payment" min="0" required class="input">
+        </label><br>
+
+        <button type="button" class="btn btn-primary" id="calcBtn">Calculate</button>
+      </form>
+
+      <div id="orderResult" style="margin-top:15px;font-size:1rem;font-weight:600"></div>
+
+      <div id="receiptBox" class="card" style="margin-top:18px; display:none; background:#fff8f3">
+        <h3>Order Receipt</h3>
+        <div id="receiptContent" class="small"></div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    Made with ❤️ — Easy Filipino dish ordering.
+  </footer>
+
+  <script>
+    // Order form calculation and receipt
+    document.getElementById('calcBtn').addEventListener('click', function(){
+      const name = document.getElementById('custName').value;
+      const qty = Number(document.getElementById('qty').value);
+      const pay = Number(document.getElementById('payment').value);
+      const menu = document.getElementById('menu');
+      const item = menu.options[menu.selectedIndex].value;
+      const price = Number(menu.options[menu.selectedIndex].dataset.price);
+
+      const total = qty * price;
+      let msg = `Total: ₱${total}`;
+      if(pay < total) msg += `<br>❌ Payment Not Enough! (Short: ₱${total - pay})`;
+      else msg += `<br>✔ Change: ₱${pay - total}`;
+      document.getElementById('orderResult').innerHTML = msg;
+
+      const rc = document.getElementById('receiptContent');
+      rc.innerHTML = `
+        <div class='receipt-line'><strong>Customer:</strong> ${name}</div>
+        <div class='receipt-line'><strong>Order:</strong> ${item}</div>
+        <div class='receipt-line'><strong>Quantity:</strong> ${qty}</div>
+        <div class='receipt-line'><strong>Unit Price:</strong> ₱${price}</div>
+        <div class='receipt-line'><strong>Total:</strong> ₱${total}</div>
+        <div class='receipt-line'><strong>Payment:</strong> ₱${pay}</div>
+        <div class='receipt-line'><strong>${pay < total ? 'Short:' : 'Change:'}</strong> ₱${Math.abs(pay - total)}</div>
+        <hr>
+        <div class='receipt-line'>Thank you for your order! 🧾</div>
+      `;
+      document.getElementById('receiptBox').style.display = 'block';
+    });
+  </script>
+</body>
+</html>
