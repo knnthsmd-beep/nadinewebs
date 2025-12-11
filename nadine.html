@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Modern Portfolio</title>
+<title>Nadine Monarin | My Modern Portfolio</title>
 
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
@@ -151,7 +151,7 @@ section {
     color: #fff;
 }
 
-/* ----------- PROJECTS ----------- */
+/* ----------- PROJECTS WITH LIGHTBOX ----------- */
 #projects {
     background: #fff;
     text-align: center;
@@ -165,30 +165,32 @@ section {
 
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 25px;
+    margin-top: 30px;
 }
 
 .project-box {
     background: #f5f5f5;
-    padding: 25px;
+    padding: 20px;
     border-radius: 12px;
     border: 1px solid #ddd;
     transition: transform 0.3s, box-shadow 0.3s;
-    min-height: 220px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
+    cursor: pointer;
 }
 
 .project-box:hover {
-    transform: translateY(-7px);
+    transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0,191,166,0.3);
 }
 
 .project-box h3 {
     font-size: 22px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
+    color: #00bfa6;
 }
 
 .project-box p {
@@ -197,18 +199,25 @@ section {
     color: #555;
 }
 
-.project-box a {
-    display: inline-block;
-    padding: 10px 15px;
-    background: #00bfa6;
-    color: #fff;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: 600;
+/* ----------- LIGHTBOX ---------- */
+#lightbox {
+    position: fixed;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
 }
 
-.project-box a:hover {
-    background: #00d2b3;
+#lightbox iframe {
+    width: 90%;
+    height: 80%;
+    border-radius: 10px;
+    border: none;
 }
 
 /* ----------- GALLERY ----------- */
@@ -316,7 +325,7 @@ button:hover {
     .profile{width:120px;height:120px;}
     #home h1{font-size:28px;}
     #home p{font-size:15px;}
-    .project-box{min-height:200px;}
+    .project-box iframe{height:200px;}
     .projects-grid{grid-template-columns:1fr;}
     .gallery-grid{grid-template-columns:repeat(auto-fit,minmax(120px,1fr));}
     .contact-grid{grid-template-columns:repeat(auto-fit,minmax(120px,1fr));}
@@ -341,7 +350,7 @@ button:hover {
 <!-- HOME -->
 <section id="home">
     <img src="prop.jfif" class="profile" alt="Profile Picture">
-    <h1>Hello, I'm Nadine</h1>
+    <h1>Hello, I'm Nadine Monarin</h1>
     <p>Welcome to my modern portfolio website. Explore my information, skills, projects, and personal gallery all in one place!</p>
 </section>
 
@@ -368,28 +377,29 @@ button:hover {
 <section id="projects">
     <h2>My Projects</h2>
     <div class="projects-grid">
-        <div class="project-box">
+        <div class="project-box" onclick="openLightbox('https://knnthsmd-beep.github.io/nadinewebs/story%20ne%20nadine.html')">
             <h3>Project 1</h3>
             <p>Description of your website or school activity.</p>
-            <a href="https://knnthsmd-beep.github.io/nadinewebs/story%20ne%20nadine.html">View Website</a>
         </div>
-        <div class="project-box">
+        <div class="project-box" onclick="openLightbox('https://knnthsmd-beep.github.io/nadinewebs/recipe%20ni%20nadine.html')">
             <h3>Project 2</h3>
             <p>Description of another website or project.</p>
-            <a href="https://knnthsmd-beep.github.io/nadinewebs/recipe%20ni%20nadine.html">View Website</a>
         </div>
-        <div class="project-box">
+        <div class="project-box" onclick="openLightbox('https://knnthsmd-beep.github.io/nadinewebs/bike2.html')">
             <h3>Project 3</h3>
             <p>Description of your third project.</p>
-            <a href="https://knnthsmd-beep.github.io/nadinewebs/bike2.html">View Website</a>
         </div>
-        <div class="project-box">
+        <div class="project-box" onclick="openLightbox('https://knnthsmd-beep.github.io/nadinewebs/nadinetero.html')">
             <h3>Project 4</h3>
             <p>Description of your fourth project.</p>
-            <a href="https://knnthsmd-beep.github.io/nadinewebs/nadinetero.html">View Website</a>
         </div>
     </div>
 </section>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="closeLightbox()">
+    <iframe id="lightboxFrame" src=""></iframe>
+</div>
 
 <!-- GALLERY -->
 <section id="gallery">
@@ -429,6 +439,17 @@ window.addEventListener('scroll', () => {
     });
     navLinks.forEach(a => { a.classList.remove('active'); if(a.getAttribute('href') === '#'+current) a.classList.add('active'); });
 });
+
+// Lightbox functions
+function openLightbox(url){
+    document.getElementById('lightboxFrame').src = url;
+    document.getElementById('lightbox').style.display = 'flex';
+}
+
+function closeLightbox(){
+    document.getElementById('lightboxFrame').src = '';
+    document.getElementById('lightbox').style.display = 'none';
+}
 </script>
 
 </body>
